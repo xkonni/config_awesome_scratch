@@ -48,10 +48,10 @@ end
 -- Scratch the focused client, or un-scratch and tile it. If another
 -- client is already scratched, replace it with the focused client.
 function set(c, width, height, sticky, screen)
-    local width  = width  or 0.50
-    local height = height or 0.50
-    local sticky = sticky or false
-    local screen = screen or capi.mouse.screen
+    width  = width  or 0.50
+    height = height or 0.50
+    sticky = sticky or false
+    screen = screen or capi.mouse.screen
 
     local function setscratch(c)
         -- Scratchpad is floating and has no titlebar
@@ -103,7 +103,7 @@ end
 -- Move the scratchpad to the current workspace, focus and raise it
 -- when it's hidden, or hide it when it's visible.
 function toggle(screen)
-    local screen = screen or capi.mouse.screen
+    screen = screen or capi.mouse.screen
 
     -- Check if we have a client on storage,
     if scratchpad.pad and
