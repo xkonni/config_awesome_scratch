@@ -1,8 +1,8 @@
 -------------------------------------------------------------------
 -- Drop-down applications manager for the awesome window manager
 -------------------------------------------------------------------
--- Coded by: * Adrian C. (anrxc) <anrxc@sysphere.org>
---           * Lucas de Vries <lucas@glacicle.com>
+-- Coded  by: * Lucas de Vries <lucas@glacicle.com>
+-- Hacked by: * Adrian C. (anrxc) <anrxc@sysphere.org>
 -- Licensed under the WTFPL version 2
 --   * http://sam.zoy.org/wtfpl/COPYING
 -------------------------------------------------------------------
