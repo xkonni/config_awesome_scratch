@@ -24,6 +24,7 @@
 ---------------------------------------------------------------
 
 -- Grab environment
+local pairs = pairs
 local awful = require("awful")
 local capi = {
     mouse = mouse,
@@ -79,8 +80,8 @@ function set(c, width, height, sticky, screen)
     if not scratchpad.pad then scratchpad.pad = {}
         -- add unmanage signal for scratchpad clients
         capi.client.add_signal("unmanage", function (c)
-            if scratchpad.pad[screen] == c then
-                scratchpad.pad[screen] = nil
+            for scr, cl in pairs(scratchpad.pad) do
+                if cl == c then scratchpad.pad[scr] = nil end
             end
         end)
     end
