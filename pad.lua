@@ -6,7 +6,7 @@
 --   * http://sam.zoy.org/wtfpl/COPYING
 ---------------------------------------------------------------
 -- To use this module add:
---     require("scratch")
+--     local scratch = require("scratch")
 -- to the top of your rc.lua, and call:
 --     scratch.pad.set(c, width, height, sticky, screen)
 -- from a clientkeys binding, and:
