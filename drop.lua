@@ -34,7 +34,8 @@ local capi = {
 }
 
 -- Scratchdrop: drop-down applications manager for the awesome window manager
-module("scratch.drop")
+local drop = {} -- module scratch.drop
+
 
 local dropdown = {}
 
@@ -126,4 +127,4 @@ function toggle(prog, vert, horiz, width, height, sticky, screen)
     end
 end
 
-setmetatable(_M, { __call = function(_, ...) return toggle(...) end })
+return setmetatable(drop, { __call = function(_, ...) return toggle(...) end })

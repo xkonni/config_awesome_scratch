@@ -33,7 +33,8 @@ local capi = {
 }
 
 -- Scratchpad: basic scratchpad manager for the awesome window manager
-module("scratch.pad")
+local pad = {} -- module scratch.pad
+
 
 local scratchpad = {}
 
@@ -48,7 +49,7 @@ end
 
 -- Scratch the focused client, or un-scratch and tile it. If another
 -- client is already scratched, replace it with the focused client.
-function set(c, width, height, sticky, screen)
+function pad.set(c, width, height, sticky, screen)
     width  = width  or 0.50
     height = height or 0.50
     sticky = sticky or false
@@ -103,7 +104,7 @@ end
 
 -- Move the scratchpad to the current workspace, focus and raise it
 -- when it's hidden, or hide it when it's visible.
-function toggle(screen)
+function pad.toggle(screen)
     screen = screen or capi.mouse.screen
 
     -- Check if we have a client on storage,
@@ -128,3 +129,5 @@ function toggle(screen)
         end
     end
 end
+
+return pad
