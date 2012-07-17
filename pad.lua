@@ -55,6 +55,10 @@ function pad.set(c, width, height, sticky, screen)
     sticky = sticky or false
     screen = screen or capi.mouse.screen
 
+    -- Determine signal usage in this version of awesome
+    local attach_signal = capi.client.add_signal    or capi.client.connect_signal
+    local detach_signal = capi.client.remove_signal or capi.client.disconnect_signal
+
     local function setscratch(c)
         -- Scratchpad is floating and has no titlebar
         awful.client.floating.set(c, true); awful.titlebar.remove(c)
@@ -80,7 +84,7 @@ function pad.set(c, width, height, sticky, screen)
     -- Prepare a table for storing clients,
     if not scratchpad.pad then scratchpad.pad = {}
         -- add unmanage signal for scratchpad clients
-        capi.client.add_signal("unmanage", function (c)
+        attach_signal("unmanage", function (c)
             for scr, cl in pairs(scratchpad.pad) do
                 if cl == c then scratchpad.pad[scr] = nil end
             end

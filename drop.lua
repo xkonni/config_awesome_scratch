@@ -49,11 +49,15 @@ function toggle(prog, vert, horiz, width, height, sticky, screen)
     sticky = sticky or false
     screen = screen or capi.mouse.screen
 
+    -- Determine signal usage in this version of awesome
+    local attach_signal = capi.client.add_signal    or capi.client.connect_signal
+    local detach_signal = capi.client.remove_signal or capi.client.disconnect_signal
+
     if not dropdown[prog] then
         dropdown[prog] = {}
 
         -- Add unmanage signal for scratchdrop programs
-        capi.client.add_signal("unmanage", function (c)
+        attach_signal("unmanage", function (c)
             for scr, cl in pairs(dropdown[prog]) do
                 if cl == c then
                     dropdown[prog][scr] = nil
@@ -93,11 +97,11 @@ function toggle(prog, vert, horiz, width, height, sticky, screen)
 
             c:raise()
             capi.client.focus = c
-            capi.client.remove_signal("manage", spawnw)
+            detach_signal("manage", spawnw)
         end
 
         -- Add manage signal and spawn the program
-        capi.client.add_signal("manage", spawnw)
+        attach_signal("manage", spawnw)
         awful.util.spawn(prog, false)
     else
         -- Get a running client
