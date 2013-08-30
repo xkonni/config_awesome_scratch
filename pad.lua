@@ -60,8 +60,8 @@ function pad.set(c, width, height, sticky, screen)
     local detach_signal = capi.client.disconnect_signal or capi.client.remove_signal
 
     local function setscratch(c)
-        -- Scratchpad is floating and has no titlebar
-        awful.client.floating.set(c, true); awful.titlebar.remove(c)
+        -- Scratchpad is floating
+        awful.client.floating.set(c, true)
 
         -- Scratchpad client properties
         toggleprop(c, {ontop=true, above=true, task=true, stick=sticky})
