@@ -83,7 +83,7 @@ function toggle(prog, vert, horiz, width, height, sticky, screen)
             elseif horiz == "right" then x = screengeom.width - width
             else   x =  screengeom.x+(screengeom.width-width)/2 end
 
-            if     vert == "bottom" then y = screengeom.height + screengeom.y - height - 2
+            if     vert == "bottom" then y = screengeom.height + screengeom.y - height - 4
             elseif vert == "center" then y = screengeom.y+(screengeom.height-height)/2
             else   y =  screengeom.y - screengeom.y end
 
