@@ -112,6 +112,20 @@ function toggle(prog, vert, horiz, width, height, sticky, screen)
             awful.client.movetotag(awful.tag.selected(mouse.screen), c)
         end
 
+       local screengeom = capi.screen[capi.mouse.screen].workarea
+       local g = c:geometry()
+
+       if     horiz == "left"  then x = screengeom.x
+       elseif horiz == "right" then x = screengeom.width - g.width - 4
+       else   x =  screengeom.x+(screengeom.width-g.width)/2 end
+
+       if     vert == "bottom" then y = screengeom.height + screengeom.y - g.height - 4
+       elseif vert == "center" then y = screengeom.y+(screengeom.height-g.height)/2
+       else   y =  screengeom.y - screengeom.y end
+
+       -- Client properties
+       c:geometry({ x = x, y = y, width = g.width, height = g.height })
+
         -- Focus and raise if hidden
         if c.hidden then
             -- Make sure it is centered
