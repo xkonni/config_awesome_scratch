@@ -11,30 +11,43 @@
 -- to the top of your rc.lua, and call:
 --     scratch.pad.set(c, args)
 -- from a clientkeys binding, and:
---     scratch.pad.toggle({instance, screen})
+--     scratch.pad.toggle(args)
 -- from a globalkeys binding.
 --
--- Parameters:
--- c        - Client to scratch or un-scratch
--- args     - table containing properties
---  args.vert     - vertical position
---                possible values: "left", "right", "top", "bottom", "center"
---                defaults to "center"
---  args.horiz    - horizontal position
---                possible values: "left", "right", "top", "bottom", "center"
---                defaults to "center"
---  args.width    - Width in absolute pixels, or width percentage
---                when <= 1
---                (0.50 (50% of the screen) by default)
---  args.height   - Height in absolute pixels, or height percentage
---                when <= 1
---                (0.50 (50% of the screen) by default)
---  args.sticky   - client visible on all workspaces
---                defaults to false
---  args.instance - used to have multiple scratched clients
---                defaults to 0
---  args.screen   - screen the client appears on, 0 for any
---                mouse.screen by default
+--  set(c, args)
+--    c        - Client to scratch or un-scratch
+--    args     - table containing properties
+--      args.vert     - vertical position
+--                      possible values: "left", "right", "top", "bottom", "center"
+--                      defaults to "center"
+--      args.horiz    - horizontal position
+--                      possible values: "left", "right", "top", "bottom", "center"
+--                      defaults to "center"
+--      args.width    - Width in absolute pixels, or width percentage
+--                      when <= 1
+--                      (0.50 (50% of the screen) by default)
+--      args.height   - Height in absolute pixels, or height percentage
+--                      when <= 1
+--                      (0.50 (50% of the screen) by default)
+--      args.sticky   - client visible on all workspaces
+--                      defaults to false
+--      args.instance - used to have multiple scratched clients
+--                      defaults to 0
+--      args.screen   - screen the client appears on, 0 for any
+--                      mouse.screen by default
+--  toggle(args)
+--    args     - table containing properties
+--      args.vert     - vertical position
+--                      possible values: "left", "right", "top", "bottom", "center"
+--                      defaults to "center"
+--      args.horiz    - horizontal position
+--                      possible values: "left", "right", "top", "bottom", "center"
+--                      defaults to "center"
+--      args.instance - used to have multiple scratched clients
+--                      defaults to 0
+--      args.screen   - screen the client appears on, 0 for any
+--                      mouse.screen by default
+--
 ---------------------------------------------------------------
 
 -- Grab environment
@@ -135,8 +148,10 @@ end
 -- when it's hidden, or hide it when it's visible.
 function pad.toggle(args)
   if not args then args = {} end
-  instance  = args.instance  or 0
-  screen    = args.screen    or capi.mouse.screen
+  instance  = args.instance or 0
+  screen    = args.screen   or capi.mouse.screen
+  vert      = args.vert     or nil
+  horiz     = args.horiz    or nil
 
   -- Check if we have a client on storage,
   if scratchpad.pad and scratchpad.pad[instance] then
@@ -154,7 +169,19 @@ function pad.toggle(args)
       end
       -- Focus and raise if it's hidden,
       if c.hidden then
-        -- awful.placement.centered(c)
+        local screengeom = capi.screen[capi.mouse.screen].workarea
+        local g = c:geometry()
+        if vert then
+          if     vert == "bottom" then  g.y = screengeom.height + screengeom.y - g.height - 4
+          elseif vert == "center" then  g.y = screengeom.y+(screengeom.height-g.height)/2
+          else                          g.y = screengeom.y - screengeom.y end
+        end
+        if horiz then
+          if     horiz == "left"  then  g.x = screengeom.x
+          elseif horiz == "right" then  g.x = screengeom.width - g.width - 4
+          else                          g.x = screengeom.x+(screengeom.width-g.width)/2 end
+        end
+        c:geometry(g)
         c.hidden = false
         c:raise(); capi.client.focus = c
       else -- hide it if it's not
