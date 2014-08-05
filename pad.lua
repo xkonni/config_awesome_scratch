@@ -77,13 +77,13 @@ end
 -- Scratch the focused client, or un-scratch and tile it.
 -- If another client is already scratched, replace it with the focused client.
 function pad.set(c, args)
-  vert      = args.vert      or "center"
-  horiz     = args.horiz     or "center"
-  width     = args.width     or 0.50
-  height    = args.height    or 0.50
-  sticky    = args.sticky    or false
-  instance  = args.instance  or 0
-  screen    = args.screen    or capi.mouse.screen
+  local vert      = args.vert      or "center"
+  local horiz     = args.horiz     or "center"
+  local width     = args.width     or 0.50
+  local height    = args.height    or 0.50
+  local sticky    = args.sticky    or false
+  local instance  = args.instance  or 0
+  local screen    = args.screen    or capi.mouse.screen
 
   -- Determine signal usage in this version of awesome
   local attach_signal = capi.client.connect_signal    or capi.client.add_signal
@@ -148,10 +148,10 @@ end
 -- when it's hidden, or hide it when it's visible.
 function pad.toggle(args)
   if not args then args = {} end
-  instance  = args.instance or 0
-  screen    = args.screen   or capi.mouse.screen
-  vert      = args.vert     or nil
-  horiz     = args.horiz    or nil
+  local instance  = args.instance or 0
+  local screen    = args.screen   or capi.mouse.screen
+  local vert      = args.vert     or nil
+  local horiz     = args.horiz    or nil
 
   -- Check if we have a client on storage,
   if scratchpad.pad and scratchpad.pad[instance] then
