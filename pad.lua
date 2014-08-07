@@ -53,6 +53,7 @@
 -- Grab environment
 local pairs = pairs
 local awful = require("awful")
+local naughty = require("naughty")
 local capi = {
     mouse = mouse,
     client = client,
@@ -99,13 +100,13 @@ function pad.set(c, args)
     if width  <= 1 then width  = screengeom.width  * width  end
     if height <= 1 then height = screengeom.height * height end
 
-    if     horiz == "left"  then x = screengeom.x
-    elseif horiz == "right" then x = screengeom.width - width
-    else   x =  screengeom.x+(screengeom.width-width)/2 end
+    if     vert == "top"    then y = screengeom.y
+    elseif vert == "bottom" then y = screengeom.y +  screengeom.height - height - 4
+    else                         y = screengeom.y + (screengeom.height - height)/2 end
 
-    if     vert == "bottom" then y = screengeom.height + screengeom.y - height - 4
-    elseif vert == "center" then y = screengeom.y+(screengeom.height-height)/2
-    else   y =  screengeom.y - screengeom.y end
+    if     horiz == "left"  then x = screengeom.x
+    elseif horiz == "right" then x = screengeom.x +  screengeom.width - width - 4
+    else                         x = screengeom.x + (screengeom.width - width)/2 end
 
     -- Client properties
     c:geometry({ x = x, y = y, width = width, height = height })
@@ -172,14 +173,14 @@ function pad.toggle(args)
         local screengeom = capi.screen[capi.mouse.screen].workarea
         local g = c:geometry()
         if vert then
-          if     vert == "bottom" then  g.y = screengeom.height + screengeom.y - g.height - 4
-          elseif vert == "center" then  g.y = screengeom.y+(screengeom.height-g.height)/2
-          else                          g.y = screengeom.y - screengeom.y end
+          if     vert == "top"    then  g.y = screengeom.y
+          elseif vert == "bottom" then  g.y = screengeom.y +  screengeom.height - g.height - 4
+          else                          g.y = screengeom.y + (screengeom.height - g.height)/2 end
         end
         if horiz then
           if     horiz == "left"  then  g.x = screengeom.x
-          elseif horiz == "right" then  g.x = screengeom.width - g.width - 4
-          else                          g.x = screengeom.x+(screengeom.width-g.width)/2 end
+          elseif horiz == "right" then  g.x = screengeom.x +  screengeom.width - g.width - 4
+          else                          g.x = screengeom.x + (screengeom.width - g.width)/2 end
         end
         c:geometry(g)
         c.hidden = false
